@@ -13,35 +13,60 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import Farm from "./pages/Farm";
+import { useEffect } from "react";
+import supabase from "@/lib/supabase";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            
-            {/* Protected Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/farm" element={<Farm />} />
-            </Route>
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  // Add debug logging
+  useEffect(() => {
+    // Checking supabase connection on app load
+    const checkSupabase = async () => {
+      try {
+        console.log("Testing Supabase connection...");
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error("Supabase connection error:", error);
+        } else {
+          console.log("Supabase connection successful:", data.session ? "User session found" : "No user session");
+        }
+      } catch (err) {
+        console.error("Supabase check failed:", err);
+      }
+    };
+    
+    checkSupabase();
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              
+              {/* Protected Routes */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/farm" element={<Farm />} />
+              </Route>
+              
+              {/* Catch-all route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
