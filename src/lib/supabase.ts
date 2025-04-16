@@ -1,11 +1,14 @@
 
 import { createClient } from '@supabase/supabase-js';
+import { Database } from '@/integrations/supabase/types';
 
-// We'll use the same values as in the integrations/supabase/client.ts file
-const supabaseUrl = "https://gyznxttsncqajqcbxefj.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5em54dHRzbmNxYWpxY2J4ZWZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzMzMDksImV4cCI6MjA1NzAwOTMwOX0.Lh7JTOSgxMEMcAGLREXiZaRADpRYdXJRXSUUm_z_1QU";
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Create a Supabase client with the credentials
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase URL or Anon Key. Please check your environment variables.');
+}
+
+const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
 export default supabase;
