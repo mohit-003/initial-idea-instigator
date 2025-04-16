@@ -1,0 +1,101 @@
+
+# FITNESS FARM ANDROID APP DEVELOPMENT GUIDE
+
+This project has been set up with Capacitor to build a native Android app.
+The placeholder APK file you're viewing is not a real APK, but a text file with development instructions.
+
+## Prerequisites
+- Node.js and npm installed
+- Android Studio installed
+- JDK 11 or newer
+
+## Development Steps
+1. Clone this project to your local machine
+2. Run 'npm install' to install all dependencies
+3. Run 'npm run build' to build your web application
+4. Run 'npx cap sync' to sync your web build to the Android project
+5. Run 'npx cap open android' to open the project in Android Studio
+
+## Fixing NullPointerException Errors
+
+If you encounter NullPointerExceptions when running the app:
+
+1. Check that MainActivity.java includes super.onCreate():
+```java
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // Initialize the Capacitor app
+    registerPlugin(FitnessBridge.class); // Only if you added this plugin
+}
+```
+
+2. Check that the package name matches in all locations:
+   - AndroidManifest.xml: `package="com.fitnessfarm.app"`
+   - capacitor.config.ts: `appId: 'com.fitnessfarm.app'`
+   - build.gradle: `applicationId "com.fitnessfarm.app"`
+
+3. Add null checks in any Java code accessing Capacitor plugins:
+```java
+if (getBridge() != null && getContext() != null) {
+    // Plugin code here
+}
+```
+
+4. Sync project after any changes:
+   - Run `npx cap sync` again
+   - In Android Studio: File > Sync Project with Gradle Files
+
+## Gradle Version Issues
+1. Open `android/build.gradle`
+2. Find the line with `classpath 'com.android.tools.build:gradle:x.x.x'`
+3. Change it to `classpath 'com.android.tools.build:gradle:7.4.2'`
+4. Click "Sync Now" in Android Studio
+
+## Creating a Java Fitness Bridge Class
+
+Create a new file in your Android project:
+`android/app/src/main/java/com/fitnessfarm/app/FitnessBridge.java`
+
+```java
+package com.fitnessfarm.app;
+
+import android.content.Context;
+import com.getcapacitor.JSObject;
+import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
+
+@CapacitorPlugin(name = "FitnessBridge")
+public class FitnessBridge extends Plugin {
+    
+    @PluginMethod
+    public void getStepCount(PluginCall call) {
+        try {
+            if (getBridge() == null || getContext() == null) {
+                call.reject("Bridge or context is null");
+                return;
+            }
+            
+            // Google Fit API integration code would go here
+            JSObject ret = new JSObject();
+            ret.put("steps", 1000); // Placeholder value
+            call.resolve(ret);
+        } catch (Exception e) {
+            call.reject("Error getting step count", e);
+        }
+    }
+}
+```
+
+Then register the plugin in your MainActivity.java:
+```java
+// Add this import
+import com.fitnessfarm.app.FitnessBridge;
+
+// Add to the onCreate method:
+registerPlugin(FitnessBridge.class);
+```
+
+For questions or support, contact our development team.
