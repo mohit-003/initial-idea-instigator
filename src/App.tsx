@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,45 +14,43 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import Farm from "./pages/Farm";
-import { useEffect } from "react";
 import supabase from "@/lib/supabase";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  // Add debug logging
   useEffect(() => {
-    // Checking supabase connection on app load
-    const checkSupabase = async () => {
+    const checkSupabaseConnection = async () => {
       try {
-        console.log("Testing Supabase connection...");
-        const { data, error } = await supabase.auth.getSession();
+        console.log("🔍 Checking Supabase Connection...");
         
-        if (error) {
-          console.error("Supabase connection error:", error);
+        // Check authentication session
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error("❌ Supabase Session Error:", sessionError);
         } else {
-          console.log("Supabase connection successful:", data.session ? "User session found" : "No user session");
+          console.log("✅ Supabase Session Status:", sessionData.session ? "Active" : "No Active Session");
         }
         
-        // Test database connection by attempting to query the fitness_activities table
-        console.log("Testing database connection...");
-        const { data: fitnessData, error: fitnessError } = await supabase
+        // Test database connectivity
+        const { data, error } = await supabase
           .from('fitness_activities')
           .select('*')
           .limit(1);
-          
-        if (fitnessError) {
-          console.error("Database query error:", fitnessError);
+        
+        if (error) {
+          console.error("❌ Database Query Error:", error);
         } else {
-          console.log("Database connection successful:", fitnessData);
+          console.log("✅ Database Query Successful:", data);
         }
         
       } catch (err) {
-        console.error("Supabase check failed:", err);
+        console.error("❌ Supabase Connection Failed:", err);
       }
     };
     
-    checkSupabase();
+    checkSupabaseConnection();
   }, []);
 
   return (
