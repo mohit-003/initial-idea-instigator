@@ -32,6 +32,20 @@ const App = () => {
         } else {
           console.log("Supabase connection successful:", data.session ? "User session found" : "No user session");
         }
+        
+        // Test database connection by attempting to query the fitness_activities table
+        console.log("Testing database connection...");
+        const { data: fitnessData, error: fitnessError } = await supabase
+          .from('fitness_activities')
+          .select('*')
+          .limit(1);
+          
+        if (fitnessError) {
+          console.error("Database query error:", fitnessError);
+        } else {
+          console.log("Database connection successful:", fitnessData);
+        }
+        
       } catch (err) {
         console.error("Supabase check failed:", err);
       }
