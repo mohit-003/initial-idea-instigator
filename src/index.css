@@ -1,0 +1,86 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 98%;
+    --foreground: 38 36% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 38 36% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 38 36% 12%;
+
+    --primary: 142 43% 42%;
+    --primary-foreground: 355 100% 100%;
+
+    --secondary: 38 92% 50%;
+    --secondary-foreground: 37 10% 16%;
+
+    --muted: 40 10% 94%;
+    --muted-foreground: 38 10% 40%;
+
+    --accent: 200 80% 48%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 38 12% 88%;
+    --input: 38 12% 88%;
+    --ring: 142 43% 42%;
+
+    --radius: 0.75rem;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "ss01" on, "ss02" on, "cv01" on, "cv03" on;
+  }
+}
+
+@layer components {
+  .hero-gradient {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--background)) 0%,
+      hsl(var(--muted)) 100%
+    );
+  }
+  
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm;
+  }
+  
+  .button-transition {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .page-transition {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-300 ease-out;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-3px);
+  }
+}
