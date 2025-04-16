@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,7 +12,7 @@ import Achievements from '@/components/Achievements';
 import SocialHub from '@/components/SocialHub';
 import ProgressChart from '@/components/ProgressChart';
 import UnityGameIntegration from '@/components/UnityGameIntegration';
-import { supabase } from '@/integrations/supabase/client';
+import supabase from '@/lib/supabase';
 import { ArrowLeft, Home, Leaf, Sprout, Trophy, Users, TrendingUp, Gamepad2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,17 +40,25 @@ const Farm = () => {
       try {
         setIsLoading(true);
         
-        const { data: currencyData, error: currencyError } = await supabase
-          .from('user_currency')
-          .select('coins')
-          .eq('user_id', user?.id)
-          .maybeSingle();
-          
-        if (currencyError && currencyError.code !== 'PGRST116') {
-          console.error('Error fetching currency:', currencyError);
+        // Attempt to fetch currency data if user is logged in
+        let coins = 500; // Default coins
+        
+        if (user?.id) {
+          try {
+            const { data: currencyData, error: currencyError } = await supabase
+              .from('user_currency')
+              .select('coins')
+              .eq('user_id', user.id)
+              .maybeSingle();
+              
+            if (currencyData) {
+              coins = currencyData.coins;
+            }
+          } catch (err) {
+            console.error('Error fetching currency:', err);
+          }
         }
         
-        const coins = currencyData?.coins || 500;
         setAvailableCoins(coins);
         
         setTimeout(() => {

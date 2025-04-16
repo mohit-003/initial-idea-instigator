@@ -1,6 +1,7 @@
 import supabase from '@/lib/supabase';
 import { FitnessData } from '@/lib/types';
 import { toast } from '@/components/ui/use-toast';
+import { Database } from '@/lib/database.types';
 
 // Pedometer state
 let isTrackingSteps = false;
@@ -318,7 +319,6 @@ export const syncFitnessData = async (activities: any[]) => {
 };
 
 // New methods for Unity integration
-
 export const getUnityUserData = async (userId: string) => {
   // Get user profile data
   const { data: profileData, error: profileError } = await supabase
