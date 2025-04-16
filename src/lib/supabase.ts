@@ -1,6 +1,6 @@
 
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/integrations/supabase/types';
+import { Database } from '@/lib/database.types';
 
 // Use hardcoded values instead of environment variables
 const supabaseUrl = "https://vfmzqnjhiemyoiwubzwt.supabase.co";
