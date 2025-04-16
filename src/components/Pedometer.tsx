@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,7 +11,7 @@ import {
   getTrackingStatus,
   simulateStep
 } from '@/services/fitnessService';
-import { supabase } from '@/integrations/supabase/client';
+import supabase from '@/lib/supabase';
 
 const Pedometer = () => {
   const [isTracking, setIsTracking] = useState(false);
@@ -25,7 +24,6 @@ const Pedometer = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const { toast } = useToast();
 
-  // Update UI with current tracking data
   useEffect(() => {
     if (!isTracking) return;
 
@@ -40,17 +38,14 @@ const Pedometer = () => {
     return () => clearInterval(intervalId);
   }, [isTracking]);
 
-  // Initialize tracking status
   useEffect(() => {
     const { isTracking: trackingActive } = getTrackingStatus();
     setIsTracking(trackingActive);
     
-    // Check if device motion is available
     if (!window.DeviceMotionEvent) {
       setShowDeviceWarning(true);
     }
     
-    // Check if user is authenticated
     const checkAuth = async () => {
       const { data } = await supabase.auth.getSession();
       if (!data.session) {
@@ -65,7 +60,6 @@ const Pedometer = () => {
     checkAuth();
   }, [toast]);
 
-  // Handler to start tracking
   const handleStartTracking = () => {
     const result = startStepTracking();
     setIsTracking(result);
@@ -79,12 +73,10 @@ const Pedometer = () => {
     }
   };
 
-  // Handler to stop tracking and sync data
   const handleStopTracking = async () => {
     try {
       setIsSyncing(true);
       
-      // Check if user is authenticated
       const { data } = await supabase.auth.getSession();
       if (!data.session) {
         toast({
@@ -125,7 +117,6 @@ const Pedometer = () => {
     }
   };
   
-  // Simulate a step for testing purposes
   const handleSimulateStep = () => {
     if (simulateStep()) {
       const { currentData } = getTrackingStatus();

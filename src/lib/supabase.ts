@@ -1,10 +1,9 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Get these from your Supabase project settings (https://supabase.com)
-// Project Settings > API
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// We'll use the same values as in the integrations/supabase/client.ts file
+const supabaseUrl = "https://gyznxttsncqajqcbxefj.supabase.co";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5em54dHRzbmNxYWpxY2J4ZWZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzMzMDksImV4cCI6MjA1NzAwOTMwOX0.Lh7JTOSgxMEMcAGLREXiZaRADpRYdXJRXSUUm_z_1QU";
 
 // Create a Supabase client with the credentials
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
