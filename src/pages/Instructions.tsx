@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Footprints, Sprout, Basket, Coins } from "lucide-react";
+import { Footprints, Sprout, ShoppingBasket, Coins } from "lucide-react";
 
 const Instructions = () => {
   return (
@@ -56,7 +56,7 @@ const Instructions = () => {
           <CardContent className="pt-6">
             <div className="flex items-start gap-4">
               <div className="bg-primary/10 p-3 rounded-full">
-                <Basket className="h-6 w-6 text-primary" />
+                <ShoppingBasket className="h-6 w-6 text-primary" />
               </div>
               <div>
                 <h2 className="text-xl font-semibold mb-2">Step 3: Get a Harvest Basket</h2>
@@ -90,7 +90,7 @@ const Instructions = () => {
           <CardContent className="pt-6">
             <div className="flex items-start gap-4">
               <div className="bg-primary/10 p-3 rounded-full">
-                <Basket className="h-6 w-6 text-primary" />
+                <ShoppingBasket className="h-6 w-6 text-primary" />
               </div>
               <div>
                 <h2 className="text-xl font-semibold mb-2">Step 5: Harvest Crops</h2>
