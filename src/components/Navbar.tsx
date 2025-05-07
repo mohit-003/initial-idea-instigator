@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, User, Home, BarChart3, Settings } from 'lucide-react';
+import { Menu, X, User, Home, BarChart3, Settings, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +30,7 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/', icon: <Home className="w-4 h-4 mr-2" /> },
     { name: 'Dashboard', path: '/dashboard', icon: <BarChart3 className="w-4 h-4 mr-2" /> },
+    { name: 'Instructions', path: '/instructions', icon: <BookOpen className="w-4 h-4 mr-2" /> },
     { name: 'Profile', path: '/profile', icon: <User className="w-4 h-4 mr-2" /> },
   ];
 

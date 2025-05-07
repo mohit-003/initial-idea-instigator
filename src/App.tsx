@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import Farm from "./pages/Farm";
+import Instructions from "./pages/Instructions";
 import supabase from "@/lib/supabase";
 
 const queryClient = new QueryClient();
@@ -64,6 +65,7 @@ const App = () => {
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/instructions" element={<Instructions />} />
               
               {/* Protected Routes */}
               <Route element={<ProtectedRoute />}>
